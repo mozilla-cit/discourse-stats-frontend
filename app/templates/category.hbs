@@ -1,0 +1,7 @@
+{{#each data}}
+<h2>{{name}}</h2>
+<p>Users watching: {{users_watching}}</p>
+<p>Users tracking: {{users_tracking}}</p>
+{{/each}}
+
+{{ember-chart type='Bar' data=data width=500 height=500}}
