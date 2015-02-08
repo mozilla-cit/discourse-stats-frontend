@@ -1,9 +1,24 @@
 <h2>Categories</h2>
+<div>
 
-{{#each full.data}}
-<h3>{{name}}</h3>
-<p>Users watching: {{users_watching}}</p>
-<p>Users tracking: {{users_tracking}}</p>
-{{/each}}
+ <table style="width:40%">
+  <tr>
+    <td><strong>Name</strong></td>
+    <td><strong>Watching</strong></td>
+    <td><strong>Tracking</strong></td>
+    <td><strong>Posts</td>
+  </tr>
+  {{#each full.data}}
+  <tr>
+    <td>{{name}}</td>
+    <td>{{users_watching}}</td>
+    <td>{{users_tracking}}</td>
+    <td>{{post_count}}</td>
+  </tr>
+  {{/each}}
+</table>
 
-{{ember-chart type='Bar' data=chartWT width=500 height=500 legend=true}}
+</div>
+<div>
+{{ember-chart type='Bar' data=chartWT width=500 height=500 legend=true options=chartWT.options}}
+</div>

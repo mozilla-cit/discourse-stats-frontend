@@ -11,7 +11,6 @@ export default Ember.Object.extend({
 			var j = 0;
 			for (var i = 0; i < data.data.length; i++) {
 				labelsFull[i] = data.data[i].name;
-
 				// get our chart data for watchers and trackers
 				if (data.data[i].users_watching == 0 && data.data[i].users_tracking == 0){
 					console.log(data.data[i].name + " has no watchers or trackers, not showing on graph");
@@ -42,7 +41,10 @@ export default Ember.Object.extend({
             			highlightFill: "rgba(151,187,205,0.75)",
             			highlightStroke: "rgba(151,187,205,1)",
 						data: usersTrackingWT
-					}]
+					}],
+					options: {
+						stackBar: true
+					}
 				}
 			};
 		});
