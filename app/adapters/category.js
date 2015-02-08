@@ -3,12 +3,15 @@ import ajax from 'ic-ajax';
 
 export default Ember.Object.extend({
 	find: function() {
-		return ajax("stats/categories.json").then(function(data){
+		return ajax("/stats/categories.json").then(function(data){
 			var labelDataWT = [];
 			var labelsFull = [];
 			var usersWatchingWT = [];
 			var usersTrackingWT = [];
+			var postCount = [];
+			var totalPosts = 0;
 			var j = 0;
+			var colours = ["red", "green", "blue", "orange", "#FFF000"];
 			for (var i = 0; i < data.data.length; i++) {
 				labelsFull[i] = data.data[i].name;
 				// get our chart data for watchers and trackers
@@ -21,6 +24,15 @@ export default Ember.Object.extend({
 					usersTrackingWT[j] = data.data[i].users_tracking;
 					j++;
 				}
+
+				// get our post data
+				postCount[i] = {
+					value: data.data[i].post_count,
+					label: data.data[i].name,
+					color: colours[i]
+				}
+
+				totalPosts += data.data[i].post_count;
 			}
 			return {
 				full: data,
@@ -28,25 +40,27 @@ export default Ember.Object.extend({
 					labels: labelDataWT,
 					datasets: [{
 						label: "Watching",
-            			fillColor: "rgba(220,220,220,0.5)",
-            			strokeColor: "rgba(220,220,220,0.8)",
-            			highlightFill: "rgba(220,220,220,0.75)",
-            			highlightStroke: "rgba(220,220,220,1)",
+						fillColor: "rgba(220,220,220,0.5)",
+						strokeColor: "rgba(220,220,220,0.8)",
+						highlightFill: "rgba(220,220,220,0.75)",
+						highlightStroke: "rgba(220,220,220,1)",
 						data: usersWatchingWT
 					},
 					{
 						label: "Tracking",
-            			fillColor: "rgba(151,187,205,0.5)",
-            			strokeColor: "rgba(151,187,205,0.8)",
-            			highlightFill: "rgba(151,187,205,0.75)",
-            			highlightStroke: "rgba(151,187,205,1)",
+						fillColor: "rgba(151,187,205,0.5)",
+						strokeColor: "rgba(151,187,205,0.8)",
+						highlightFill: "rgba(151,187,205,0.75)",
+						highlightStroke: "rgba(151,187,205,1)",
 						data: usersTrackingWT
 					}],
 					options: {
 						stackBar: true
 					}
-				}
+				},
+				chartPosts: postCount
+
 			};
 		});
-	}
+}
 });
