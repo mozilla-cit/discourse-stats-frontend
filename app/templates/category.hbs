@@ -1,7 +1,9 @@
-{{#each data}}
-<h2>{{name}}</h2>
+<h2>Categories</h2>
+
+{{#each full.data}}
+<h3>{{name}}</h3>
 <p>Users watching: {{users_watching}}</p>
 <p>Users tracking: {{users_tracking}}</p>
 {{/each}}
 
-{{ember-chart type='Bar' data=data width=500 height=500}}
+{{ember-chart type='Bar' data=chart width=500 height=500 legend=true}}
