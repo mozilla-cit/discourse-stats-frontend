@@ -3,26 +3,37 @@ import ajax from 'ic-ajax';
 
 export default Ember.Object.extend({
 	find: function() {
-		return ajax("").then(function(data){
-			var labelData = [];
-			var usersWatching = [];
-			var usersTracking = [];
+		return ajax("stats/categories.json").then(function(data){
+			var labelDataWT = [];
+			var labelsFull = [];
+			var usersWatchingWT = [];
+			var usersTrackingWT = [];
+			var j = 0;
 			for (var i = 0; i < data.data.length; i++) {
-				labelData[i] = data.data[i].name;
-				usersWatching[i] = data.data[i].users_watching;
-				usersTracking[i] = data.data[i].users_tracking;
+				labelsFull[i] = data.data[i].name;
+
+				// get our chart data for watchers and trackers
+				if (data.data[i].users_watching == 0 && data.data[i].users_tracking == 0){
+					console.log(data.data[i].name + " has no watchers or trackers, not showing on graph");
+				}
+				else {
+					labelDataWT[j] = data.data[i].name;
+					usersWatchingWT[j] = data.data[i].users_watching;
+					usersTrackingWT[j] = data.data[i].users_tracking;
+					j++;
+				}
 			}
 			return {
 				full: data,
-				chart: {
-					labels: labelData,
+				chartWT: {
+					labels: labelDataWT,
 					datasets: [{
 						label: "Watching",
             			fillColor: "rgba(220,220,220,0.5)",
             			strokeColor: "rgba(220,220,220,0.8)",
             			highlightFill: "rgba(220,220,220,0.75)",
             			highlightStroke: "rgba(220,220,220,1)",
-						data: usersWatching
+						data: usersWatchingWT
 					},
 					{
 						label: "Tracking",
@@ -30,7 +41,7 @@ export default Ember.Object.extend({
             			strokeColor: "rgba(151,187,205,0.8)",
             			highlightFill: "rgba(151,187,205,0.75)",
             			highlightStroke: "rgba(151,187,205,1)",
-						data: usersTracking
+						data: usersTrackingWT
 					}]
 				}
 			};
